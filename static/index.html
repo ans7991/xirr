@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>
+			Welcome to Portfolio Manager
+		</title>
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap-theme.min.css"/>
+		<link rel="stylesheet" type="text/css" href="static/css/stocks.css"/>
+	</head>
+
+	<body>
+		<script type="text/x-handlebars" data-template-name="application">
+		    <div id="top" class="menu">
+		    	<ul class="nav nav-tabs">
+		    		<li role="presentation">{{#link-to "home"}}<i class="glyphicon glyphicon-home"></i> Home{{/link-to}}</li>
+  					<li role="presentation">
+  						{{#link-to "transactions.all"}}<i class="glyphicon glyphicon-th-list"></i> Transactions{{/link-to}}
+  					</li>
+  					<li role="presentation">
+  						{{#link-to "transactions.new"}}<i class="glyphicon glyphicon-plus"></i> Add Transaction{{/link-to}}
+  					</li>
+  					<li role="presentation"><a href="#"><i class="glyphicon glyphicon-stats"></i> Summary</a></li>
+				</ul>
+		    </div>
+	      	<div id="container">
+	        	{{outlet}}
+	      	</div>
+		</script>
+
+		<script type="text/x-handlebars" data-template-name="home">
+			<p> Welcome to Stock Manager. </p>
+		</script>
+
+		<script type="text/x-handlebars" data-template-name="transactions/all">
+		    <section id="transactions">
+			    <div class="table-responsive container">
+				    <div class="panel panel-default">
+		  				<div class="panel-heading">Transactions</div>
+				    	<table id="transactions-list" class="table table-striped table-bordered table-hover">
+				    		<thead>
+				    			<tr>
+									<td>Txn id</td>
+									<td>Name</td>
+									<td>Quantity</td>
+									<td>Price</td>
+									<td>Type</td>
+									<td>Date</td>
+								</tr>
+				    		<thead>
+				    		<tbody>
+								{{#each model}}
+							    <tr>
+							    	<td>{{#link-to "transactions.edit" this}}{{id}}{{/link-to}}</td>
+					    			<td>{{name}}</td>
+					    			<td>{{quantity}}</td>
+					    			<td>{{price}}</td>
+					    			<td>{{type}}</td>
+					    			<td>{{date}}</td>
+					    			<td>
+					    				<button type="submit" class="btn btn-danger btn-xs" {{ action 'delete' this }}>
+					    					<i class="glyphicon glyphicon-trash"></i>
+					    				</button>
+					    			</td>
+							    </tr>
+							  	{{/each}}
+							</tbody>
+						</table>
+					</div>
+				</div>
+		    </section>
+		</script>
+
+		<script type="text/x-handlebars" data-template-name="inputForm">
+			<form class="form-horizontal" role="form">
+    			<div class="form-group">
+        			<label for="txnId" class="control-label col-xs-2">Txn Id</label>
+        				<div class="col-xs-4 input-group">
+        					<span class="input-group-addon">@</span>
+            				{{input type="number" value=id class="form-control" id="txnId" placeholder="Identity" disabled="disabled"}}
+        				</div>
+    			</div>
+
+    			<div class="form-group">
+        			<label for="name" class="control-label col-xs-2">Name</label>
+        				<div class="col-xs-4 input-group">
+        					<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+            				{{input type="text" value=name class="form-control" id="name" placeholder="Equity Name"}}
+        				</div>
+    			</div>
+
+    			<div class="form-group">
+        			<label for="quantity" class="control-label col-xs-2">Quantity</label>
+        				<div class="col-xs-4 input-group">
+            				{{input type="number" value=quantity class="form-control" id="quantity" placeholder="How many?"}}
+            				<span class="input-group-addon">.00</span>
+        				</div>
+    			</div>
+
+    			<div class="form-group">
+        			<label for="price" class="control-label col-xs-2">Price</label>
+        				<div class="col-xs-4 input-group">
+        					<span class="input-group-addon">$</span>
+            				{{input type="number" value=price class="form-control" id="price" placeholder="Price"}}
+        				</div>
+    			</div>
+
+    			<div class="form-group">
+        			<label for="type" class="control-label col-xs-2">Type</label>
+    				<div class="btn-group">
+						{{view "select" content=types value=type class="form-control"}}
+					</div>
+    			</div>
+
+    			<div class="form-group">
+        			<label for="date" class="control-label col-xs-2">Date</label>
+    				<div class="col-xs-4 input-group">
+    					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+        				{{input type="date" value=date class="form-control" id="date" placeholder="When?"}}
+    				</div>
+    			</div>
+
+			</form>
+		</script>
+
+		<script type="text/x-handlebars" data-template-name="transactions/edit" >
+		    {{partial "inputForm"}}
+		    <div class="form-group button-center">
+				<button type="submit" class="btn btn-default" {{action 'update' this}}>Submit</button>
+			</div>
+		</script>
+
+		<script type="text/x-handlebars" data-template-name="transactions/new" >
+		    {{partial "inputForm"}}
+		    {{#if message}}
+		    <div class="message-center alert alert-success alert-dismissible" role="alert">
+		    	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    		<span aria-hidden="true">&times;</span>
+		    	</button>
+		    	<strong>{{message}}</strong>
+		    </div>
+		    {{/if}}
+		    <div class="form-group button-center">
+				<button type="submit" class="btn btn-default" {{action 'insert' this}}>Submit</button>
+			</div>
+		</script>
+
+		<script src="static/js/libs/jquery-1.11.1.min.js"></script>
+		<script src="static/js/libs/handlebars-v1.3.0.js"></script>
+		<script src="static/js/libs/ember.js"></script>
+		<script src="static/js/bootstrap.min.js"></script>
+		<script src="static/js/app.js"></script>
+	</body>
+</html>

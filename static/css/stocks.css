@@ -1,0 +1,60 @@
+form {
+	margin: 0px auto;
+	padding: 1% 1% 0% 28%;
+}
+
+.button-center {
+	margin: 0px auto;
+	padding-left: 47%;
+}
+
+.message-center {
+	margin: 10px auto;
+	width: 30%;
+}
+
+input:focus {
+	border-color: #000;
+}
+
+.button {
+	padding-left: 90px;
+}
+
+button {
+	margin-left: .5em;
+}
+
+.success {
+	color: forestgreen;
+	background-color: palegoldenrod;
+	border-radius: 3px;
+	padding: 5px 5px 5px 10px;
+}
+
+.option {
+	width: 60px;
+	height: 17px;
+	margin-left: 5px;
+}
+
+p {
+	padding: 5px 0px;
+	margin: 5px auto;
+	color: dodgerblue;
+	width: 17%;
+}
+
+.number {
+	text-align: right;
+}
+
+.image {
+	position: absolute;
+	left: 46.5em;
+	top: 9em;
+}
+
+.menu {
+	margin: 10px auto;
+}
