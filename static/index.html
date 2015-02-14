@@ -40,15 +40,18 @@
 			    <div class="table-responsive container">
 				    <div class="panel panel-default">
 		  				<div class="panel-heading">Transactions</div>
-				    	<table id="transactions-list" class="table table-striped table-bordered table-hover">
+				    	<table id="transactions-list" class="table table-striped table-bordered table-hover table-condensed">
 				    		<thead>
 				    			<tr>
-									<td>Txn id</td>
-									<td>Name</td>
-									<td>Quantity</td>
-									<td>Price</td>
-									<td>Type</td>
-									<td>Date</td>
+									<th>Txn id</th>
+									<th>Name</th>
+									<th>Quantity</th>
+									<th>Price/Unit</th>
+									<th>Total Amount</th>
+									<th>Commission</th>
+									<th>Type</th>
+									<th>Date</th>
+									<th>Delete</th>
 								</tr>
 				    		<thead>
 				    		<tbody>
@@ -57,7 +60,9 @@
 							    	<td>{{#link-to "transactions.edit" this}}{{id}}{{/link-to}}</td>
 					    			<td>{{name}}</td>
 					    			<td>{{quantity}}</td>
-					    			<td>{{price}}</td>
+					    			<td>Rs. {{price}}</td>
+					    			<td>Rs. {{total quantity price}}</td>
+					    			<td>Rs. {{commission quantity price}}</td>
 					    			<td>{{type}}</td>
 					    			<td>{{date}}</td>
 					    			<td>

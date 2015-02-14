@@ -89,3 +89,11 @@ Manager.TransactionsEditRoute = Ember.Route.extend({
     	}
 	}
 });
+
+Ember.Handlebars.helper('total', function(quantity, price) {
+  return (quantity * price).toFixed(2);
+});
+
+Ember.Handlebars.helper('commission', function(quantity, price) {
+  return (quantity * price * 0.007).toFixed(2);
+});
