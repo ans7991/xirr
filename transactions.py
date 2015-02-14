@@ -1,53 +1,38 @@
 import bottle
 import json
 import pymongo
+import transactionDAO
+import counterDAO
 from bottle import static_file, request
 from pymongo import MongoClient
 
 @bottle.get('/transactions')
 def get():
-    conn = MongoClient('localhost', 27017)
-    transactions = conn.stocks.transactions
-    transaction_list = []
-    for transaction in transactions.find({}, {"_id": False}).sort("id", pymongo.ASCENDING):
-        transaction_list.append(transaction)
-    return json.dumps(transaction_list)
+    return json.dumps(transactions.getAll())
 
 @bottle.get('/transactions/<id>')
 def get(id):
-    conn = MongoClient('localhost', 27017)
-    transactions = conn.stocks.transactions
-    return transactions.find_one({"id": id}, {"_id": False})
+    return transactions.get(int(id))
 
 @bottle.post('/transactions')
 def insert():
-    conn = MongoClient('localhost', 27017)
-    transactions = conn.stocks.transactions
-    counters = conn.stocks.counters
     transactions.insert(request.json)
-    counters.update({"_id": "txn_id"}, {"$inc": {"seq": 1}}, new = "true")
+    counters.update()
     return {"message": "Your transaction has been saved successfully."}
 
 @bottle.post('/transactions/<id>')
 def update(id):
-    conn = MongoClient('localhost', 27017)
-    transactions = conn.stocks.transactions
-    transactions.update({"id": id}, request.json)
+    transactions.update(int(id), request.json)
     return {"message": "Your transaction has been updated successfully."}
 
 @bottle.delete('/transactions/<id>')
 def delete(id):
-    conn = MongoClient('localhost', 27017)
-    transactions = conn.stocks.transactions
-    transactions.remove({"id": int(id)})
-    print id
+    transactions.remove(int(id))
     return {"message": "Your transaction has been removed successfully."}
 
 @bottle.get('/currentId')
-def get():
-    conn = MongoClient('localhost', 27017)
-    counters = conn.stocks.counters
-    return counters.find_one({"_id": "txn_id"}, {"_id": False})
+def getCurrentId():
+    return counters.get()
 
 @bottle.get('/')
 def welcome():
@@ -60,6 +45,13 @@ def serve_static(file, subdir):
 @bottle.get('/static/<subdir>/libs/<file>')
 def serve_static(file, subdir):
     return static_file(file, root='./static/'+subdir+'/libs')
+
+connectionURL = "mongodb://localhost"
+connection = MongoClient(connectionURL)
+database = connection.stocks
+
+transactions = transactionDAO.TransactionDAO(database)
+counters = counterDAO.CounterDAO(database)
 
 bottle.run(host="localhost", port="8085", reloader=True)
 
