@@ -23,7 +23,9 @@
   					<li role="presentation">
   						{{#link-to "transactions.new"}}<i class="glyphicon glyphicon-plus"></i> Add Transaction{{/link-to}}
   					</li>
-  					<li role="presentation"><a href="#"><i class="glyphicon glyphicon-stats"></i> Summary</a></li>
+  					<li role="presentation">
+  						{{#link-to "transactions.summary"}}<i class="glyphicon glyphicon-stats"></i> Summary{{/link-to}}
+  					</li>
 				</ul>
 		    </div>
 	      	<div id="container">
@@ -33,6 +35,10 @@
 
 		<script type="text/x-handlebars" data-template-name="home">
 			<p> Welcome to Stock Manager. </p>
+		</script>
+
+		<script type="text/x-handlebars" data-template-name="transactions/summary">
+			<p> XIRR for your transactions is : {{xirr}} %</p>
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="transactions/all">
@@ -80,7 +86,7 @@
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="inputForm">
-			<form class="form-horizontal" role="form">
+			<form class="form-horizontal add-form" role="form">
     			<div class="form-group">
         			<label for="txnId" class="control-label col-xs-2">Txn Id</label>
         				<div class="col-xs-4 input-group">
@@ -127,30 +133,35 @@
         				{{input type="date" value=date class="form-control" id="date" placeholder="When?"}}
     				</div>
     			</div>
-
 			</form>
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="transactions/edit" >
 		    {{partial "inputForm"}}
 		    <div class="form-group button-center">
-				<button type="submit" class="btn btn-default" {{action 'update' this}}>Submit</button>
+				<button type="submit" class="btn btn-primary" {{action 'update' this}}>Update</button>
 			</div>
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="transactions/new" >
 		    {{partial "inputForm"}}
-		    {{#if message}}
-		    <div class="message-center alert alert-success alert-dismissible" role="alert">
-		    	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		    		<span aria-hidden="true">&times;</span>
-		    	</button>
-		    	<strong>{{message}}</strong>
-		    </div>
-		    {{/if}}
 		    <div class="form-group button-center">
-				<button type="submit" class="btn btn-default" {{action 'insert' this}}>Submit</button>
+				<button type="submit" class="btn btn-primary" {{action 'insert' this}}>Add</button>
 			</div>
+
+			<hr>
+
+			<div class="container">
+    			<div class="row">
+        			<div class="col-md-6 col-md-offset-3">
+			            <form class="form-inline" action="/upload" method="post" enctype="multipart/form-data">
+		    				<input type="file" id="uploadFile" class="form-control file-input" placeholder="Upload CSV" name="upload">
+			    			<button type="button" class="btn btn-primary" {{action 'upload'}}>Upload</button>
+						</form>
+        			</div>
+    			</div>
+			</div>
+			
 		</script>
 
 		<script src="static/js/libs/jquery-1.11.1.min.js"></script>

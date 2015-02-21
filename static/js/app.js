@@ -8,7 +8,6 @@ Manager.TransactionsEditController = Ember.ObjectController.extend({
 
 Manager.TransactionsNewController = Ember.ObjectController.extend({
 	model: {},
-	message: "",
   	types: ["BUY", "SELL"]
 });
 
@@ -17,9 +16,16 @@ Manager.Router.map(function() {
 		this.route('all');
 		this.route('new');
 		this.route('edit', {path: '/:id'});
+		this.route('summary');
 	})
 	
 	this.resource('home', {path: '/'});
+});
+
+Manager.TransactionsSummaryRoute = Ember.Route.extend({
+  	model: function() {
+    	return jQuery.getJSON("http://"+host+":"+port+"/summary");
+  	}
 });
 
 Manager.TransactionsAllRoute = Ember.Route.extend({
@@ -58,11 +64,24 @@ Manager.TransactionsNewRoute = Ember.Route.extend({
  	   			type: "POST",
  	   			contentType: "application/json"
  	   		})
- 	   		.done(function(data){
- 	   			self.controllerFor('transactions.new').set('message', data.message);
- 	   			setInterval(function(){
- 	   				self.controllerFor('transactions.new').set('message', "");
- 	   			}, 5000)
+ 	   		.done(function(){
+ 	   			self.transitionTo("transactions.all");
+ 	   		})
+    	},
+
+    	upload: function() {
+    		var self = this;
+    		var file = new FormData();
+    		file.append('upload', $('#uploadFile')[0].files[0]);
+    		$.ajax({
+ 	   			url: "http://"+host+":"+port+"/upload", 
+ 	   			data: file,
+ 	   			type: "POST",
+ 	   			processData: false,
+ 	   			contentType: false
+ 	   		})
+ 	   		.done(function(){
+ 	   			self.transitionTo("transactions.all");
  	   		})
     	}
 	}

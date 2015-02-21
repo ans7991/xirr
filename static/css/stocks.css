@@ -1,4 +1,4 @@
-form {
+.add-form {
 	margin: 0px auto;
 	padding: 1% 1% 0% 28%;
 }
@@ -6,6 +6,10 @@ form {
 .button-center {
 	margin: 0px auto;
 	padding-left: 47%;
+}
+
+.file-input {
+	width: 85% !important
 }
 
 .message-center {
