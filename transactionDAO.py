@@ -19,7 +19,4 @@ class TransactionDAO:
         self.transactions.update({"id": id}, transaction)
 
     def get_all(self):
-        transaction_list = []
-        for transaction in self.transactions.find({}, {"_id": False}).sort("id", pymongo.ASCENDING):
-            transaction_list.append(transaction)
-        return transaction_list
+        return [transaction for transaction in self.transactions.find({}, {"_id": False}).sort("date", pymongo.ASCENDING)]

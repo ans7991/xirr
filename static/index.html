@@ -38,6 +38,16 @@
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="transactions/summary">
+			<form class="form-inline add-form" role="form">
+    			<div class="form-group">
+        			<label for="current_worth" class="control-label">Current Worth&nbsp</label>
+        				<div class="col-xs-8 input-group">
+        					<span class="input-group-addon">$</span>
+            				{{input type="number" value=amount class="form-control" id="current_worth" placeholder="Current Worth"}}
+        				</div>
+    			</div>
+    			<button type="submit" class="btn btn-default" {{action 'getSummary' this}}>Get Summary</button>
+    		<form>
 			<p> XIRR for your transactions is : {{xirr}} %</p>
 		</script>
 
@@ -55,6 +65,7 @@
 									<th>Price/Unit</th>
 									<th>Total Amount</th>
 									<th>Commission</th>
+									<th>Net Amount</th>
 									<th>Type</th>
 									<th>Date</th>
 									<th>Delete</th>
@@ -69,6 +80,7 @@
 					    			<td>Rs. {{price}}</td>
 					    			<td>Rs. {{total quantity price}}</td>
 					    			<td>Rs. {{commission quantity price}}</td>
+					    			<td>Rs. {{net quantity price type}}</td>
 					    			<td>{{type}}</td>
 					    			<td>{{date}}</td>
 					    			<td>

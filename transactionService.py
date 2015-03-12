@@ -15,7 +15,7 @@ class TransactionService():
         self.transactions = transactions
         self.counters = counters
 
-    def calculate_xirr(self):
+    def calculate_xirr(self, current_worth):
         amounts = []
         days = []
         transactions = self.transactions.get_all()
@@ -27,13 +27,18 @@ class TransactionService():
                 amounts.append(calc_buy_amount(txn))
             else:
                 amounts.append(calc_sell_amount(txn))
-            days.append(calc_day_diff(first_date, txn))
+            days.append(calc_day_diff(first_date, txn.date))
+
+        amounts.append(float(current_worth))
+        days.append(calc_day_diff(first_date, time.strftime(DATE_FORMAT)))
 
         return newton(GUESS, amounts, days)
 
     def upload(self, reader):
         for row in reader:
             row['id'] = int(self.counters.get()['seq'])
+            row['price'] = float(row['price'])
+            row['quantity'] = float(row['quantity'])
             self.transactions.insert(row)
             self.counters.update()
 
@@ -66,5 +71,5 @@ def calc_sell_amount(txn):
     return round((int(txn.quantity) * float(txn.price) * COMM_SELL_FACTOR), 2)
 
 
-def calc_day_diff(first_date, txn):
-    return float((time.mktime(time.strptime(txn.date, DATE_FORMAT)) - first_date) / SECONDS_IN_ONE_DAY)
+def calc_day_diff(first_date, date):
+    return float((time.mktime(time.strptime(date, DATE_FORMAT)) - first_date) / SECONDS_IN_ONE_DAY)

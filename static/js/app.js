@@ -11,6 +11,10 @@ Manager.TransactionsNewController = Ember.ObjectController.extend({
   	types: ["BUY", "SELL"]
 });
 
+Manager.TransactionsSummaryController = Ember.ObjectController.extend({
+	model: {}
+});
+
 Manager.Router.map(function() {
 	this.resource('transactions', function(){
 		this.route('all');
@@ -23,8 +27,14 @@ Manager.Router.map(function() {
 });
 
 Manager.TransactionsSummaryRoute = Ember.Route.extend({
-  	model: function() {
-    	return jQuery.getJSON("http://"+host+":"+port+"/summary");
+  	actions : {
+  		getSummary : function(params) {
+  			var self = this;
+	    	return jQuery.getJSON("http://"+host+":"+port+"/summary?amount="+params.amount).then(function(data) {
+	    		self.controllerFor('transactions.summary').set('model', data);
+	    		console.log(self);
+	    	})
+  		}
   	}
 });
 
@@ -115,4 +125,8 @@ Ember.Handlebars.helper('total', function(quantity, price) {
 
 Ember.Handlebars.helper('commission', function(quantity, price) {
   return (quantity * price * 0.007).toFixed(2);
+});
+
+Ember.Handlebars.helper('net', function(quantity, price, type) {
+	return type === 'BUY' ? (quantity * price * 1.007).toFixed(2) : (quantity * price * 0.993).toFixed(2);
 });
