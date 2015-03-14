@@ -3,6 +3,12 @@
 	padding: 1% 1% 0% 28%;
 }
 
+.summary-form {
+	width: 35%;
+	margin-top: 50px;
+	margin-bottom: 10px;
+}
+
 .button-center {
 	margin: 0px auto;
 	padding-left: 47%;
@@ -42,11 +48,15 @@ button {
 	margin-left: 5px;
 }
 
+.summary-info {
+	width:50%;
+	margin-top: 20px;
+}
+
 p {
-	padding: 5px 0px;
-	margin: 5px auto;
-	color: dodgerblue;
-	width: 17%;
+	padding: 5px;
+	text-align: center;
+	margin: 0px;
 }
 
 .number {

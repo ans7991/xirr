@@ -38,7 +38,7 @@
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="transactions/summary">
-			<form class="form-inline add-form" role="form">
+			<form class="form-inline center-block summary-form" role="form">
     			<div class="form-group">
         			<label for="current_worth" class="control-label">Current Worth&nbsp</label>
         				<div class="col-xs-8 input-group">
@@ -47,8 +47,15 @@
         				</div>
     			</div>
     			<button type="submit" class="btn btn-default" {{action 'getSummary' this}}>Get Summary</button>
-    		<form>
-			<p> XIRR for your transactions is : {{xirr}} %</p>
+    		</form>
+    		{{#if xirr}}
+    		<div class="clearfix center-block summary-info">
+				<p class="text-info bg-info"> Total Buy Amount: Rs. {{total -1 total_amounts.total_buy}} </p>
+				<p class="text-info bg-info"> Total Sell Amount: Rs. {{total_amounts.total_sell}} </p>
+				<p class="text-info bg-info"> Net Gain: Rs. {{net total_amounts.total_sell total_amounts.total_buy}} </p>
+				<p class="text-info bg-info"> XIRR for your transactions is : {{xirr}} %</p>
+			</div>
+			{{/if}}
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="transactions/all">

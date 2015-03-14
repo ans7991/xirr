@@ -46,7 +46,7 @@ def get_current_id():
 
 @bottle.get('/summary')
 def summary():
-    return {"xirr": service.calculate_xirr(request.query.amount)}
+    return service.calculate_summary(request.query.amount)
 
 
 @bottle.post('/upload')
