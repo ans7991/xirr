@@ -131,6 +131,6 @@ Ember.Handlebars.helper('net', function(quantity, price, type) {
 	return type === 'BUY' ? (quantity * price * 1.007).toFixed(2) : (quantity * price * 0.993).toFixed(2);
 });
 
-Ember.Handlebars.helper('net', function(sell, buy) {
+Ember.Handlebars.helper('net_gain', function(sell, buy) {
   return (sell + buy).toFixed(2);
 });

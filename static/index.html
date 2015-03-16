@@ -46,13 +46,13 @@
             				{{input type="number" value=amount class="form-control" id="current_worth" placeholder="Current Worth"}}
         				</div>
     			</div>
-    			<button type="submit" class="btn btn-default" {{action 'getSummary' this}}>Get Summary</button>
+    			<button type="submit" class="btn btn-info" {{action 'getSummary' this}}>Get Summary</button>
     		</form>
     		{{#if xirr}}
     		<div class="clearfix center-block summary-info">
 				<p class="text-info bg-info"> Total Buy Amount: Rs. {{total -1 total_amounts.total_buy}} </p>
 				<p class="text-info bg-info"> Total Sell Amount: Rs. {{total_amounts.total_sell}} </p>
-				<p class="text-info bg-info"> Net Gain: Rs. {{net total_amounts.total_sell total_amounts.total_buy}} </p>
+				<p class="text-info bg-info"> Net Gain: Rs. {{net_gain total_amounts.total_sell total_amounts.total_buy}} </p>
 				<p class="text-info bg-info"> XIRR for your transactions is : {{xirr}} %</p>
 			</div>
 			{{/if}}
@@ -83,13 +83,13 @@
 							    <tr>
 							    	<td>{{#link-to "transactions.edit" this}}{{id}}{{/link-to}}</td>
 					    			<td>{{name}}</td>
-					    			<td>{{quantity}}</td>
-					    			<td>Rs. {{price}}</td>
-					    			<td>Rs. {{total quantity price}}</td>
-					    			<td>Rs. {{commission quantity price}}</td>
-					    			<td>Rs. {{net quantity price type}}</td>
+					    			<td class="number">{{quantity}}</td>
+					    			<td class="number">Rs. {{price}}</td>
+					    			<td class="number">Rs. {{total quantity price}}</td>
+					    			<td class="number">Rs. {{commission quantity price}}</td>
+					    			<td class="number">Rs. {{net quantity price type}}</td>
 					    			<td>{{type}}</td>
-					    			<td>{{date}}</td>
+					    			<td class="number">{{date}}</td>
 					    			<td>
 					    				<button type="submit" class="btn btn-danger btn-xs" {{ action 'delete' this }}>
 					    					<i class="glyphicon glyphicon-trash"></i>
